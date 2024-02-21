@@ -51,12 +51,15 @@
      É uma tabela que mapeia os endereçoes de entrada de todas as interrupções suportadas pelo processador.
 
 ### (i) Qual a finalidade do NVIC (**Nested Vectored Interrupt Controller**) nos microcontroladores ARM e como ele pode ser utilizado em aplicações de tempo real?
-    
+       Tem a finalidade de gerenciar as interrupções de forma que siga a hierarquia de prioridade e eficiente. Ele pode ser utilizado para que as interrupções sejam priorizadas de acordo com a sua importancia,
+       para responder interrupções de forma eficiente, suporta uma interrupção enquanto outra esta sendo feita, permite que algumas interrupções sejam temporariamente desativasdas, mascaradas se necessario.
 
 ### (j) Em modo de execução normal, o Cortex-M pode fazer uma chamada de função usando a instrução **BL**, que muda o **PC** para o endereço de destino e salva o ponto de execução atual no registador **LR**. Ao final da função, é possível recuperar esse contexto usando uma instrução **BX LR**, por exemplo, que atualiza o **PC** para o ponto anterior. No entanto, quando acontece uma interrupção, o **LR** é preenchido com um valor completamente  diferente,  chamado  de  **EXC_RETURN**.  Explique  o  funcionamento  desse  mecanismo  e especifique como o **Cortex-M** consegue fazer o retorno da interrupção. 
+       Esse mecanismo que preenche o Cortex-M com o valor EXC_RETURN serve para identificar o contexto da interrupção e realizar o melhor retorno de interrupção, o EXC_RETURN tem informações do estado que
+       o processador estava antes da interrupção.
 
-### (k) Qual  a  diferença  no  salvamento  de  contexto,  durante  a  chegada  de  uma  interrupção,  entre  os processadores Cortex-M3 e Cortex M4F (com ponto flutuante)? Descreva em termos de tempo e também de uso da pilha. Explique também o que é ***lazy stack*** e como ele é configurado. 
-
+### (k) Qual  a  diferença  no  salvamento  de  contexto,  durante  a  chegada  de  uma  interrupção,  entre  os processadores Cortex-M3 e Cortex M4F (com ponto flutuante)? Descreva em termos de tempo e também de uso da pilha. .Explique também o que é ***lazy stack*** e como ele é configurado 
+       A diferença está relacionada ao suporte do ponto flutuante no cortex-m4f e o seu impacto no tempo de resposta e no uso da pilha, no m3 em uma interrupção o contexto do processador é salvo automaticamente na pilha principal, ja no m4f por ter um suporte a ponto flutuante é possivel usar uma pilha de contexto separada para os registradores de ponto flutuante durante uma interrupção serem salvos. o lazy stack é uma tecnica de economia de tempo e espaço na pilha para o tratamento de interrupções, usando o lazy stack é possivel adiar o salvamento dos registradores de ponto flutuante até que eles sejam usados em uma interrupção, ele é configurado por meio do 'LSPACT' e esse bit pode ser configurado durante a inicialização do sistema para ativar ou desativar o lazy stack.
 
 ## Referências
 
